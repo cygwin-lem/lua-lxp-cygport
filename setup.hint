@@ -1,4 +1,4 @@
 category: Lua
-requires: cygwin lua libexpat1
+requires: lua libexpat1
 sdesc: "Lua Expat bindings"
 ldesc: "LuaExpat is a SAX XML parser based on the Expat library."
