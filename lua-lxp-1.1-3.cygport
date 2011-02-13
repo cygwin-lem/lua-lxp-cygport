@@ -1,14 +1,15 @@
+ORIG_PN="luaexpat"
 inherit lua
 
 DESCRIPTION="Lua Expat SAX XML parser"
 HOMEPAGE="http://www.keplerproject.org/luaexpat/"
-SRC_URI="http://luaforge.net/frs/download.php/2469/${PN/-}-${PV}.tar.gz"
-SRC_DIR="${PN/-}-${PV}"
+SRC_URI="http://luaforge.net/frs/download.php/2469/${ORIG_PN}-${PV}.tar.gz"
+PATCH_URI="1.1-dll.patch"
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake LIBS=${LUA_LIBS} LUA_INC=${LUA_INCLUDEDIR} LUA_VERSION_NUM=${LUA_VERSION/./0}
+	cygmake LIBS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
 }
 
 src_test() {
@@ -20,6 +21,7 @@ src_test() {
 src_install() {
 	cd ${B}
 	cyginstall \
+		LIBNAME="lxp.dll" \
 		LUA_DIR=${D}${LUA_SCRIPTDIR} \
 		LUA_LIBDIR=${D}${LUA_LIBDIR}
 }
