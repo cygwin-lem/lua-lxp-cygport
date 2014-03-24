@@ -1,9 +1,14 @@
-ORIG_PN="luaexpat"
 inherit lua
 
-DESCRIPTION="Lua Expat SAX XML parser"
+NAME="lua-lxp"
+VERSION=1.1
+RELEASE=3
+CATEGORY="Lua"
+SUMMARY="Lua Expat bindings"
+DESCRIPTION="LuaExpat is a SAX XML parser based on the Expat library."
 HOMEPAGE="http://www.keplerproject.org/luaexpat/"
-SRC_URI="http://luaforge.net/frs/download.php/2469/${ORIG_PN}-${PV}.tar.gz"
+SRC_URI="http://luaforge.net/frs/download.php/2469/luaexpat-${VERSION}.tar.gz"
+SRC_DIR="luaexpat-${VERSION}"
 PATCH_URI="1.1-dll.patch"
 
 src_compile() {
