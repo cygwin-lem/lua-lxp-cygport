@@ -1,20 +1,20 @@
 inherit lua
 
 NAME="lua-lxp"
-VERSION=1.1
-RELEASE=3
+VERSION=1.2.0
+RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
 DESCRIPTION="LuaExpat is a SAX XML parser based on the Expat library."
 HOMEPAGE="http://www.keplerproject.org/luaexpat/"
-SRC_URI="http://luaforge.net/frs/download.php/2469/luaexpat-${VERSION}.tar.gz"
+SRC_URI="http://matthewwild.co.uk/projects/luaexpat/luaexpat-${VERSION}.tar.gz"
 SRC_DIR="luaexpat-${VERSION}"
 PATCH_URI="1.1-dll.patch"
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake LIBS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
+	cygmake CWARNS="${CFLAGS}" LIBS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
 }
 
 src_test() {
