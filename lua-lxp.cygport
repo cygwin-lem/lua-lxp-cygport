@@ -1,7 +1,7 @@
 inherit lua
 
 NAME="lua-lxp"
-VERSION=1.2.0
+VERSION=1.3.0
 RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
@@ -9,12 +9,11 @@ DESCRIPTION="LuaExpat is a SAX XML parser based on the Expat library."
 HOMEPAGE="http://www.keplerproject.org/luaexpat/"
 SRC_URI="http://matthewwild.co.uk/projects/luaexpat/luaexpat-${VERSION}.tar.gz"
 SRC_DIR="luaexpat-${VERSION}"
-PATCH_URI="1.1-dll.patch"
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake CWARNS="${CFLAGS}" LIBS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
+	cygmake CWARNS="${CFLAGS}" LDFLAGS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
 }
 
 src_test() {
@@ -27,8 +26,8 @@ src_install() {
 	cd ${B}
 	cyginstall \
 		LIBNAME="lxp.dll" \
-		LUA_DIR=${D}${LUA_SCRIPTDIR} \
-		LUA_LIBDIR=${D}${LUA_LIBDIR}
+		LUA_LDIR=${LUA_SCRIPTDIR} \
+		LUA_CDIR=${LUA_LIBDIR}
 }
 
 HTMLDOCS="doc/us/*"
