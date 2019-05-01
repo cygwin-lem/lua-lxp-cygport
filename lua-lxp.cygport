@@ -2,7 +2,7 @@ inherit lua
 
 NAME="lua-lxp"
 VERSION=1.3.0
-RELEASE=1
+RELEASE=2
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
 DESCRIPTION="LuaExpat is a SAX XML parser based on the Expat library."
@@ -13,7 +13,7 @@ SRC_DIR="luaexpat-${VERSION}"
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake CWARNS="${CFLAGS}" LDFLAGS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
+	cygmake COMMON_CFLAGS="${CFLAGS}" LDFLAGS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
 }
 
 src_test() {
