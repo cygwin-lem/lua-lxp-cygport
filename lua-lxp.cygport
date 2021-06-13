@@ -1,33 +1,99 @@
 inherit lua
 
 NAME="lua-lxp"
-VERSION=1.3.0
-RELEASE=2
+VERSION=1.3.3p3
+RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
-DESCRIPTION="LuaExpat is a SAX XML parser based on the Expat library."
-HOMEPAGE="http://www.keplerproject.org/luaexpat/"
-SRC_URI="http://matthewwild.co.uk/projects/luaexpat/luaexpat-${VERSION}.tar.gz"
-SRC_DIR="luaexpat-${VERSION}"
+DESCRIPTION="\
+LuaExpat is a SAX XML parser based on the Expat library.
+"
+HOMEPAGE="https://github.com/tomasguisasola/luaexpat/"
+
+GIT_REPO="https://github.com/tomasguisasola/luaexpat"
+declare -A GIT_DATEHASH_BY_NAME=(
+  # git log --date=iso-strict --format='%cd/%H' -1
+  [1.3.3p3]=2019-02-18T10:13:58-03:00/9878960feecd9f3c30d76652dfc5a721a7117aac
+  [1.3.3]=2018-11-27T09:31:28-02:00/v1.3.3
+)
+REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
+REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%%/*}"
+REV_DATE_SHORT="${REV_DATE%%T*}"
+GIT_BASENAME="${GIT_REPO##*/}"
+SRC_URI="${GIT_REPO}/archive/${REV_HASH}/${GIT_BASENAME}-${VERSION}.tar.gz"
+SRC_DIR="${GIT_BASENAME}-${REV_HASH#v}"
+
+################################
+## Patch files
+################################
+# Patch filenames are in a default style of 'git format-patch'
+PATCH_URI=$(\
+  find -maxdepth 1 -type f -name '[0-9][0-9][0-9][0-9]-*.patch' \
+  | sort \
+)
+# Additional patches, if any
+PATCH_URI+="
+  1.3.3-makefile.patch
+"
+
+################################
+## Requirements for building
+################################
+BUILD_REQUIRES="\
+  lua\
+  liblua-devel\
+  libexpat-devel\
+"
+# TEST_REQUIRES="\
+# "
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake COMMON_CFLAGS="${CFLAGS}" LDFLAGS=${LUA_LIBS} LIBNAME="lxp.dll" LUA_VERSION_NUM=${LUA_VERSION/./0}
+	cygmake \
+		LUA_SYS_VER="${LUA_VERSION}" \
+		LIBNAME=lxp.so \
+		CFLAGS="\
+			${CFLAGS} \
+			${LUA_CFLAGS} \
+			$(pkg-config --cflags expat) \
+		" \
+		LIB_OPTION="-shared" \
+		LIBS="\
+			${LUA_LIBS} \
+			$(pkg-config --libs expat) \
+		" \
+	;
 }
 
 src_test() {
-	cd ${B}/src
-	${LUA} -llxp ../tests/test.lua
-	${LUA} -llxp ../tests/test-lom.lua
+	cd ${B}
+	echo "LUA=${LUA}"
+	${LUA} -v
+
+	local TEST_ROOT="./tests"
+	local TEST_LUA_PATH="./src/?.lua"
+	local TEST_LUA_CPATH="./src/?.so"
+	local TEST_LUA_PKGS="-llxp"
+
+	local f
+	find "${TEST_ROOT}" -maxdepth 1 -name "test*.lua" -print0 \
+	| while read -r -d '' f; do
+		printf "%s\n" "Testing $f"
+		LUA_PATH="${TEST_LUA_PATH}" \
+		LUA_CPATH="${TEST_LUA_CPATH}" \
+		${LUA} ${TEST_LUA_PKGS} "$f"
+	  done
 }
 
 src_install() {
 	cd ${B}
 	cyginstall \
-		LIBNAME="lxp.dll" \
-		LUA_LDIR=${LUA_SCRIPTDIR} \
-		LUA_CDIR=${LUA_LIBDIR}
+		LUA_SYS_VER="${LUA_VERSION}" \
+		LIBNAME="lxp.so" \
+		LUA_DIR=${D}${LUA_SCRIPTDIR} \
+		LUA_LIBDIR=${D}${LUA_LIBDIR} \
+	;
 }
 
 HTMLDOCS="doc/us/*"
