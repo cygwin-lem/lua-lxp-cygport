@@ -59,6 +59,7 @@ ABI=0
 _CYGPORT_RESTRICT_postinst_doc_=1
 
 set_packages_lua_versions ${LUA_VERSIONS} ${LUA_PKG_NAME}
+__set_pkg_property lua53-${LUA_PKG_NAME} OBSOLETES "lua-${LUA_PKG_NAME}"
 
 ################################
 src_compile_lua() {
