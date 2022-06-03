@@ -2,7 +2,7 @@ inherit lua
 
 NAME="lua-lxp"
 VERSION=1.4.1
-RELEASE=1
+RELEASE=2
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
 DESCRIPTION="\
@@ -71,4 +71,4 @@ src_install() {
 	;
 }
 
-HTMLDOCS="doc/us/*"
+HTMLDOCS="docs/*"
