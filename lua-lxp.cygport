@@ -1,5 +1,5 @@
 NAME="lua-lxp"
-VERSION=1.4.0
+VERSION=1.4.1
 RELEASE=10
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
@@ -11,6 +11,7 @@ HOMEPAGE="https://lunarmodules.github.io/luaexpat/"
 GIT_REPO="https://github.com/lunarmodules/luaexpat"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
+  [1.4.1]=2022-04-01T10:20:20+02:00/1.4.1
   [1.4.0]=2022-03-28T21:41:06+02:00/1.4.0
 )
 REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
