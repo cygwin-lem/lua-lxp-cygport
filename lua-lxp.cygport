@@ -1,18 +1,17 @@
 NAME="lua-lxp"
-VERSION=1.3.3p3
+VERSION=1.4.0
 RELEASE=10
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
 DESCRIPTION="\
 LuaExpat is a SAX XML parser based on the Expat library.
 "
-HOMEPAGE="https://github.com/tomasguisasola/luaexpat/"
+HOMEPAGE="https://lunarmodules.github.io/luaexpat/"
 
-GIT_REPO="https://github.com/tomasguisasola/luaexpat"
+GIT_REPO="https://github.com/lunarmodules/luaexpat"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
-  [1.3.3p3]=2019-02-18T10:13:58-03:00/9878960feecd9f3c30d76652dfc5a721a7117aac
-  [1.3.3]=2018-11-27T09:31:28-02:00/v1.3.3
+  [1.4.0]=2022-03-28T21:41:06+02:00/1.4.0
 )
 REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
 REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%%/*}"
@@ -36,7 +35,6 @@ PATCH_URI=$(\
 )
 # Additional patches, if any
 PATCH_URI+="
-  1.3.3-makefile.patch
 "
 
 ################################
@@ -68,15 +66,13 @@ src_compile_lua() {
 
   lndirs ${S} .
   cygmake \
-    LUA_VERSION="${LUA_VERSION}" \
-    LIBNAME=lxp.so \
+    LUA_V="${LUA_VERSION}" \
     CFLAGS="\
       ${CFLAGS} \
       ${LUA_CFLAGS} \
       $(pkg-config --cflags expat) \
     " \
-    LIB_OPTION="-shared" \
-    LIBS="\
+    EXPAT_LIB="\
       ${LUA_LIBS} \
       $(pkg-config --libs expat) \
     " \
@@ -88,13 +84,12 @@ src_install_lua() {
   cd ${B}/${LUA_VERSION}
 
   cyginstall \
-    LUA_SYS_VER="${LUA_VERSION}" \
-    LIBNAME="lxp.so" \
-    LUA_DIR=${D}${LUA_SCRIPTDIR} \
-    LUA_LIBDIR=${D}${LUA_LIBDIR} \
+    LUA_V="${LUA_VERSION}" \
+    LUA_LDIR=${LUA_SCRIPTDIR} \
+    LUA_CDIR=${LUA_LIBDIR} \
   ;
 
-  dodoc LICENSE* README* rockspec/luaexpat-${VERSION%p*}-*.rockspec doc/
+  dodoc LICENSE* README* rockspec/luaexpat-${VERSION%p*}-*.rockspec docs/
 }
 
 ################################
