@@ -10,6 +10,10 @@ LuaExpat is a SAX XML parser based on the Expat library.
 "
 HOMEPAGE="https://lunarmodules.github.io/luaexpat/"
 
+LICENSE="MIT"
+# cf. https://www.cygwin.com/packaging-hint-files.html#pvr-src.hint
+#     https://spdx.org/licenses/MIT.html
+
 GIT_REPO="https://github.com/lunarmodules/luaexpat"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
