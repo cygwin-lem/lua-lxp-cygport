@@ -1,7 +1,7 @@
 inherit lua
 
 NAME="lua-lxp"
-VERSION=1.5.0
+VERSION=1.5.1
 RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua Expat bindings"
@@ -17,6 +17,7 @@ LICENSE="MIT"
 GIT_REPO="https://github.com/lunarmodules/luaexpat"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
+  [1.5.1]=2022-10-03T11:23:43+02:00/1.5.1
   [1.5.0]=2022-08-26T09:50:48+02:00/1.5.0
   [1.4.1]=2022-04-01T10:20:20+02:00/1.4.1
   [1.4.0]=2022-03-28T21:41:06+02:00/1.4.0
